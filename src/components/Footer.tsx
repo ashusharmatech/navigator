@@ -32,15 +32,11 @@ export const Footer: React.FC = () => (
         <div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Connect</h3>
           <div className="flex space-x-4">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" 
+            <a href="https://github.com/ashusharmatech/navigator.git" target="_blank" rel="noopener noreferrer" 
               className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
               <Github className="h-6 w-6" />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-              <Twitter className="h-6 w-6" />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.linkedin.com/in/ashusharma31/" target="_blank" rel="noopener noreferrer"
               className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
               <Linkedin className="h-6 w-6" />
             </a>
