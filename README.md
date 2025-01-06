@@ -22,6 +22,9 @@ A comprehensive platform for analyzing mutual funds, tracking performance, and m
 - React Router
 - Lucide Icons
 
+## Quality Status
+[![CodeQL Advanced](https://github.com/ashusharmatech/navigator/actions/workflows/codeql.yml/badge.svg)](https://github.com/ashusharmatech/navigator/actions/workflows/codeql.yml)
+
 ## Getting Started
 
 1. Clone the repository:
