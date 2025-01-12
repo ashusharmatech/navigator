@@ -7,6 +7,7 @@ import { NAVHistory } from '../components/NAVHistory';
 import { SIPCalculator } from '../components/SIPCalculator';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorMessage';
+import { AdPlacement } from '../components/AdPlacement';
 
 export function SchemePage() {
   const { schemeCode } = useParams<{ schemeCode: string }>();
@@ -47,10 +48,18 @@ export function SchemePage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 pt-20">
-      <div className="space-y-6">
-        <SchemeOverview schemeDetails={schemeDetails} />
-        <NAVHistory navData={schemeDetails.data} />
-        <SIPCalculator navData={schemeDetails.data} />
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-3 space-y-6">
+          <SchemeOverview schemeDetails={schemeDetails} />
+          <AdPlacement position="content" />
+          <NAVHistory navData={schemeDetails.data} />
+          <SIPCalculator navData={schemeDetails.data} />
+        </div>
+        <div className="lg:col-span-1">
+          <div className="sticky top-24">
+            <AdPlacement position="sidebar" />
+          </div>
+        </div>
       </div>
     </div>
   );

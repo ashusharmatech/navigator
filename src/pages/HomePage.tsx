@@ -4,6 +4,7 @@ import { HeroSection } from '../components/HeroSection';
 import { SearchBox } from '../components/SearchBox';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorMessage';
+import { AdPlacement } from '../components/AdPlacement';
 
 interface HomePageProps {
   schemes: MutualFundScheme[];
@@ -39,6 +40,10 @@ export function HomePage({
           onSearchChange={onSearchChange}
           className="mb-8"
         />
+      </div>
+
+      <div className="mt-12">
+        <AdPlacement position="content" />
       </div>
     </div>
   );
