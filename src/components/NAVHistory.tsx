@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, memo } from 'react';
 import { NAVData } from '../types/mutual-fund';
 import {
   AreaChart,
@@ -18,7 +18,47 @@ interface NAVHistoryProps {
   navData: NAVData[];
 }
 
-export const NAVHistory: React.FC<NAVHistoryProps> = ({ navData }) => {
+const MemoizedAreaChart = memo(({ data, chartColor }: any) => (
+  <ResponsiveContainer width="100%" height="100%">
+    <AreaChart data={data}>
+      <defs>
+        <linearGradient id="navGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="5%" stopColor={chartColor} stopOpacity={0.3}/>
+          <stop offset="95%" stopColor={chartColor} stopOpacity={0}/>
+        </linearGradient>
+      </defs>
+      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+      <XAxis
+        dataKey="date"
+        tickFormatter={(date) => format(date, 'MMM dd')}
+        stroke="#9CA3AF"
+      />
+      <YAxis stroke="#9CA3AF" />
+      <Tooltip
+        labelFormatter={(date) => format(date, 'MMM dd, yyyy')}
+        formatter={(value: number) => [`₹${value.toFixed(2)}`, 'NAV']}
+        contentStyle={{
+          backgroundColor: 'rgb(31, 41, 55)',
+          border: 'none',
+          borderRadius: '0.375rem',
+          color: '#fff'
+        }}
+      />
+      <Area
+        type="monotone"
+        dataKey="nav"
+        stroke={chartColor}
+        strokeWidth={2}
+        fillOpacity={1}
+        fill="url(#navGradient)"
+      />
+    </AreaChart>
+  </ResponsiveContainer>
+));
+
+MemoizedAreaChart.displayName = 'MemoizedAreaChart';
+
+export const NAVHistory = memo(({ navData }: NAVHistoryProps) => {
   const [selectedRange, setSelectedRange] = useState('1Y');
   
   const { chartData, isPositive } = useMemo(() => {
@@ -46,42 +86,8 @@ export const NAVHistory: React.FC<NAVHistoryProps> = ({ navData }) => {
       />
       
       <div className="h-[400px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData}>
-            <defs>
-              <linearGradient id="navGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={chartColor} stopOpacity={0.3}/>
-                <stop offset="95%" stopColor={chartColor} stopOpacity={0}/>
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-            <XAxis
-              dataKey="date"
-              tickFormatter={(date) => format(date, 'MMM dd')}
-              stroke="#9CA3AF"
-            />
-            <YAxis stroke="#9CA3AF" />
-            <Tooltip
-              labelFormatter={(date) => format(date, 'MMM dd, yyyy')}
-              formatter={(value: number) => [`₹${value.toFixed(2)}`, 'NAV']}
-              contentStyle={{
-                backgroundColor: 'rgb(31, 41, 55)',
-                border: 'none',
-                borderRadius: '0.375rem',
-                color: '#fff'
-              }}
-            />
-            <Area
-              type="monotone"
-              dataKey="nav"
-              stroke={chartColor}
-              strokeWidth={2}
-              fillOpacity={1}
-              fill="url(#navGradient)"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+        <MemoizedAreaChart data={chartData} chartColor={chartColor} />
       </div>
     </div>
   );
-};
+});

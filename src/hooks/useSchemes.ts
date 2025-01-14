@@ -1,13 +1,11 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState, useMemo } from 'react';
 import { MutualFundScheme, SchemeDetails } from '../types/mutual-fund';
 import { api } from '../api/mutual-fund';
 import { parseSchemeDetails } from '../utils/filterUtils';
 
 export function useSchemes() {
-  const [schemes, setSchemes] = useState<MutualFundScheme[]>([]);
-  const [selectedScheme, setSelectedScheme] = useState<SchemeDetails | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
   const [filters, setFilters] = useState({
     amc: [] as string[],
     planType: [] as string[],
@@ -15,33 +13,24 @@ export function useSchemes() {
     fundType: [] as string[],
   });
 
-  useEffect(() => {
-    fetchSchemes();
-  }, []);
+  const { data: schemes = [], isLoading, error } = useQuery({
+    queryKey: ['schemes'],
+    queryFn: api.getAllSchemes,
+    staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
+    cacheTime: 30 * 60 * 1000, // Keep data in cache for 30 minutes
+  });
 
-  const fetchSchemes = async () => {
-    try {
-      const data = await api.getAllSchemes();
-      setSchemes(data);
-    } catch (err) {
-      setError('Failed to fetch mutual fund schemes. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: selectedScheme, isLoading: isLoadingScheme } = useQuery({
+    queryKey: ['selectedScheme'],
+    queryFn: () => null,
+    enabled: false,
+  });
 
   const handleSchemeSelect = async (scheme: MutualFundScheme) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await api.getHistoricalNAV(scheme.schemeCode);
-      setSelectedScheme(data);
-    } catch (err) {
-      setError('Failed to fetch scheme details. Please try again later.');
-      setSelectedScheme(null);
-    } finally {
-      setLoading(false);
-    }
+    queryClient.prefetchQuery({
+      queryKey: ['scheme', scheme.schemeCode],
+      queryFn: () => api.getHistoricalNAV(scheme.schemeCode),
+    });
   };
 
   const handleFilterChange = (filterType: string, values: string[]) => {
@@ -68,8 +57,8 @@ export function useSchemes() {
   return {
     schemes,
     selectedScheme,
-    loading,
-    error,
+    loading: isLoading || isLoadingScheme,
+    error: error ? 'Failed to fetch mutual fund schemes. Please try again later.' : null,
     filters,
     handleSchemeSelect,
     handleFilterChange,
