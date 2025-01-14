@@ -3,6 +3,7 @@ import { MutualFundScheme } from '../types/mutual-fund';
 import { HeroSection } from '../components/HeroSection';
 import { SearchBox } from '../components/SearchBox';
 import { AdPlacement } from '../components/AdPlacement';
+import { SEOHead } from '../components/SEOHead';
 
 interface HomePageProps {
   searchTerm: string;
@@ -18,6 +19,7 @@ export function HomePage({
   loading
 }: HomePageProps) {
   return (
+    <SEOHead />
     <div className="max-w-7xl mx-auto px-4 py-8 pt-20">
       <HeroSection />
       

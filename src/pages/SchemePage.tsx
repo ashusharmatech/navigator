@@ -9,6 +9,7 @@ import { RiskMetrics } from '../components/RiskMetrics';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { AdPlacement } from '../components/AdPlacement';
+import { SEOHead } from '../components/SEOHead';
 
 export function SchemePage() {
   const { schemeCode } = useParams<{ schemeCode: string }>();
@@ -48,6 +49,12 @@ export function SchemePage() {
   }
 
   return (
+    <>
+    <SEOHead
+        title={`${schemeDetails.meta.scheme_name} - NAVigator`}
+        description={`Analyze ${schemeDetails.meta.scheme_name} from ${schemeDetails.meta.fund_house}. View NAV history, performance metrics, and make informed investment decisions.`}
+        type="article"
+      />
     <div className="max-w-7xl mx-auto px-4 py-8 pt-20">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="lg:col-span-3 space-y-6">
@@ -64,5 +71,6 @@ export function SchemePage() {
         </div>
       </div>
     </div>
+    </
   );
 }
