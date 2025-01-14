@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { HomePage } from './pages/HomePage';
 import { SearchPage } from './pages/SearchPage';
 import { SchemePage } from './pages/SchemePage';
+import { DashboardPage } from './pages/DashboardPage';
 import { MainLayout } from './layouts/MainLayout';
 import { useSchemes } from './hooks/useSchemes';
 
@@ -31,17 +32,8 @@ export function App() {
           loading={schemesLoading}
         />
         <Routes>
-          <Route
-            path="/"
-            element={
-              <HomePage
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                schemes={schemes}
-                loading={schemesLoading}
-              />
-            }
-          />
+          <Route path="/" element={<HomePage searchTerm={searchTerm} onSearchChange={setSearchTerm} schemes={schemes} loading={schemesLoading} />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route
             path="/search"
             element={
@@ -49,10 +41,7 @@ export function App() {
                 schemes={schemes}
                 loading={schemesLoading}
                 error={error}
-                filters={filters}
-                onFilterChange={handleFilterChange}
                 filteredSchemes={filteredSchemes}
-                viewMode={viewMode}
               />
             }
           />

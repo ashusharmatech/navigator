@@ -4,6 +4,7 @@ import { SearchBox } from './SearchBox';
 import { Logo } from './Logo';
 import { NavbarActions } from './NavbarActions';
 import { MutualFundScheme } from '../types/mutual-fund';
+import { LayoutDashboard } from 'lucide-react';
 
 interface NavbarProps {
   searchTerm: string;
@@ -31,15 +32,26 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Logo />
           </Link>
           
-          {showSearch && (
-            <div className="flex-1 max-w-2xl mx-8">
-              <SearchBox
-                schemes={schemes}
-                searchTerm={searchTerm}
-                onSearchChange={onSearchChange}
-              />
-            </div>
-          )}
+          <div className="flex items-center space-x-8">
+            <Link
+              to="/dashboard"
+              className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 
+                hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              <LayoutDashboard size={20} />
+              <span>Dashboard</span>
+            </Link>
+            
+            {showSearch && (
+              <div className="flex-1 max-w-2xl">
+                <SearchBox
+                  schemes={schemes}
+                  searchTerm={searchTerm}
+                  onSearchChange={onSearchChange}
+                />
+              </div>
+            )}
+          </div>
 
           <NavbarActions
             viewMode={viewMode}
