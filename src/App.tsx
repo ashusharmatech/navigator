@@ -12,7 +12,7 @@ export function App() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const {
     schemes,
-    loading,
+    loading: schemesLoading,
     error,
     filters,
     handleFilterChange,
@@ -28,17 +28,17 @@ export function App() {
           schemes={schemes}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
+          loading={schemesLoading}
         />
         <Routes>
           <Route
             path="/"
             element={
               <HomePage
-                schemes={schemes}
-                loading={loading}
-                error={error}
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
+                schemes={schemes}
+                loading={schemesLoading}
               />
             }
           />
@@ -47,7 +47,7 @@ export function App() {
             element={
               <SearchPage
                 schemes={schemes}
-                loading={loading}
+                loading={schemesLoading}
                 error={error}
                 filters={filters}
                 onFilterChange={handleFilterChange}

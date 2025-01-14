@@ -7,6 +7,7 @@ interface SearchBoxProps {
   schemes: MutualFundScheme[];
   searchTerm: string;
   onSearchChange: (term: string) => void;
+  loading?: boolean;
   className?: string;
 }
 
@@ -14,6 +15,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({
   schemes,
   searchTerm,
   onSearchChange,
+  loading = false,
   className = ''
 }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -49,17 +51,18 @@ export const SearchBox: React.FC<SearchBoxProps> = ({
       <div className="relative">
         <input
           type="text"
-          placeholder="Search mutual funds..."
+          placeholder={loading ? "Loading schemes..." : "Search mutual funds..."}
           className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500
             bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
           onFocus={() => setShowSuggestions(true)}
+          disabled={loading}
         />
         <Search className="absolute left-3 top-2.5 text-gray-400" size={20} />
       </div>
 
-      {showSuggestions && searchTerm && (
+      {showSuggestions && searchTerm && !loading && (
         <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-700 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600">
           {suggestions.length > 0 ? (
             suggestions.map((scheme) => (
