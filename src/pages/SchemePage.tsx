@@ -5,6 +5,7 @@ import { api } from '../api/mutual-fund';
 import { SchemeOverview } from '../components/SchemeOverview';
 import { NAVHistory } from '../components/NAVHistory';
 import { SIPCalculator } from '../components/SIPCalculator';
+import { RiskMetrics } from '../components/RiskMetrics';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { AdPlacement } from '../components/AdPlacement';
@@ -51,6 +52,7 @@ export function SchemePage() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="lg:col-span-3 space-y-6">
           <SchemeOverview schemeDetails={schemeDetails} />
+          <RiskMetrics navData={schemeDetails.data} />
           <AdPlacement position="content" />
           <NAVHistory navData={schemeDetails.data} />
           <SIPCalculator navData={schemeDetails.data} />
