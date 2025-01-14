@@ -71,6 +71,6 @@ export function SchemePage() {
         </div>
       </div>
     </div>
-    </
+    </>
   );
 }
